@@ -4,6 +4,7 @@ using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -22,20 +23,29 @@ namespace Employee.WinClient
         }
 
         private void ButtonGetById(object sender, EventArgs e)
-        {           
-            textBox2.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).Id.ToString();
-            textBox3.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).FirstName;
-            textBox4.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).LastName;
-            textBox5.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).Title;
-            textBox6.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).Address;
-            textBox7.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).City;
-            textBox8.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).Country;
-            textBox9.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).Notes;
+        {
+            try
+            {
+                textBox2.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).Id.ToString();
+                textBox3.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).FirstName;
+                textBox4.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).LastName;
+                textBox5.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).Title;
+                textBox6.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).Address;
+                textBox7.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).City;
+                textBox8.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).Country;
+                textBox9.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).Notes;
+            }
+            catch (FaultException ex)
+            {
+                MessageBox.Show($"tomas{ex.Message}");
+            }         
+            
         }
 
         private void ButtonSave(object sender, EventArgs e)
         {
-            client.UpdateEmployee(Convert.ToInt32(textBox2.Text), textBox3.Text, textBox4.Text, textBox5.Text, textBox6.Text, textBox7.Text, textBox8.Text, textBox9.Text)
+            client.UpdateEmployee(Convert.ToInt32(textBox2.Text), textBox3.Text, textBox4.Text, textBox5.Text,
+                textBox6.Text, textBox7.Text, textBox8.Text, textBox9.Text);
         }
     }
 }
