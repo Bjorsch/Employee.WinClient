@@ -26,6 +26,7 @@ namespace Employee.WinClient
         {
             try
             {
+                client.GetEmployeeById(Convert.ToInt32(textBox1.Text));
                 textBox2.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).Id.ToString();
                 textBox3.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).FirstName;
                 textBox4.Text = client.GetEmployeeById(Convert.ToInt32(textBox1.Text)).LastName;
@@ -37,15 +38,47 @@ namespace Employee.WinClient
             }
             catch (FaultException ex)
             {
-                MessageBox.Show($"tomas{ex.Message}");
-            }         
-            
+                MessageBox.Show($"FaultException: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }                
         }
 
         private void ButtonSave(object sender, EventArgs e)
         {
-            client.UpdateEmployee(Convert.ToInt32(textBox2.Text), textBox3.Text, textBox4.Text, textBox5.Text,
+            try
+            {
+                client.UpdateEmployee(Convert.ToInt32(textBox2.Text), textBox3.Text, textBox4.Text, textBox5.Text,
                 textBox6.Text, textBox7.Text, textBox8.Text, textBox9.Text);
+            }
+            catch (FaultException ex)
+            {
+                MessageBox.Show($"FaultException: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void textBox1_Validating(object sender, CancelEventArgs e)
+        {
+            int result;
+            if(!int.TryParse(textBox1.Text, out result))            
+            {
+                MessageBox.Show(@"Du måste ange en siffra");
+            }
+        }
+
+        private void textBox2_Validating(object sender, CancelEventArgs e)
+        {
+            int result;
+            if (!int.TryParse(textBox2.Text, out result))
+            {
+                MessageBox.Show(@"Du måste ange en siffra");
+            }
         }
     }
 }
